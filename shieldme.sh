@@ -47,5 +47,6 @@ for i in "${!array[@]}"; do
     phantomjs-2.1.1-linux-x86_64/bin/phantomjs 7.js ${array[$i]} | grep "a href" | grep -v "AS" | grep net | awk -F ">" '{print $3}' | awk -F "<" '{print $1}' | grep "/" > $i.txt
     cat $i.txt >>idcips.txt
 done
+cat idcips.txt | sort -u >idcips.json
 
 echo [+] removing phantomjs folder && rm -rf phantomjs-2.1.1-linux-x86_64
