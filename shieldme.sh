@@ -47,7 +47,7 @@ if [ ${MACHINE_TYPE} == 'x86_64' ]; then
   for i in "${!array[@]}"
   do
     echo [+] downloading blocks for $i addresses from "${array[$i]}"
-    phantomjs-2.1.1-linux-x86_64/bin/phantomjs 7.js ${array[$i]} | grep "a href" | grep -v "AS" | grep net | awk -F ">" '{print $3}' | awk -F "<" '{print $1}' | grep "/" > $i.txt
+    phantomjs-2.1.1-linux-x86_64/bin/phantomjs 7.js ${array[$i]} | grep "a href" | grep -v "AS" | grep net | awk -F ">" '{print $3}' | awk -F "<" '{print $1}' | grep "/" >> idcips.txt
   done
 
   echo [+] removing phantomjs folder
