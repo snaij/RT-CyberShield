@@ -19,7 +19,7 @@ yum -y install ipset iptables curl fontconfig libfontconfig bzip2
 
 ## Installation
 ```
-git clone https://github.com/op7ic/RT-CyberShield.git
+git clone git@github.com:snaij/RT-CyberShield.git
 cd RT-CyberShield
 chmod +x shieldme.sh
 ./shieldme.sh
