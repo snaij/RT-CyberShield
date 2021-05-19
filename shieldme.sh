@@ -39,35 +39,13 @@ array[alibaba]="https://bgp.he.net/search?search%5Bsearch%5D=alibaba&commit=Sear
 array[digitalocean]="https://bgp.he.net/search?search[search]=digitalocean&commit=Search"
 array[rackspace]="https://bgp.he.net/search?search%5Bsearch%5D=rackspace+&commit=Search"
 
-MACHINE_TYPE=`uname -m`
-if [ ${MACHINE_TYPE} == 'x86_64' ]; then
-  echo [+] unpacking phantomjs x64
-  tar xvjf phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2
-  
-  for i in "${!array[@]}"
-  do
+
+tar xvjf phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2
+rm -rf idcips.txt
+for i in "${!array[@]}"; do
     echo [+] downloading blocks for $i addresses from "${array[$i]}"
-    phantomjs-2.1.1-linux-x86_64/bin/phantomjs 7.js ${array[$i]} | grep "a href" | grep -v "AS" | grep net | awk -F ">" '{print $3}' | awk -F "<" '{print $1}' | grep "/" >> idcips.txt
-  done
+    phantomjs-2.1.1-linux-x86_64/bin/phantomjs 7.js ${array[$i]} | grep "a href" | grep -v "AS" | grep net | awk -F ">" '{print $3}' | awk -F "<" '{print $1}' | grep "/" > $i.txt
+    cat $i.txt >>idcips.txt
+done
 
-  echo [+] removing phantomjs folder
-  rm -rf phantomjs-2.1.1-linux-x86_64
-  
-else
-  echo [+] unpacking phantomjs x86
-  tar xvjf phantomjs/phantomjs-2.1.1-linux-i686.tar.bz2
-  
-  for i in "${!array[@]}"
-  do
-    echo [+] downloading blocks for $i addresses from "${array[$i]}"
-    phantomjs-2.1.1-linux-i686/bin/phantomjs 7.js ${array[$i]} | grep "a href" | grep -v "AS" | grep net | awk -F ">" '{print $3}' | awk -F "<" '{print $1}' | grep "/" >> idcips.txt
-  done
-  
-  echo [+] removing phantomjs folder
-  rm -rf phantomjs-2.1.1-linux-i686
-fi
-
-echo [+] removing phantomjs script
-rm -f 7.js
-
-#No this script is not smart ... you could do loops but hey ho
+echo [+] removing phantomjs folder && rm -rf phantomjs-2.1.1-linux-x86_64
